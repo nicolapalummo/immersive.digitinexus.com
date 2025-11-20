@@ -1,13 +1,11 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const router = express.Router();
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const compression = require('compression');
 
 const app = express();
-const port = 8080;
 
 app.use(cors());
 app.use(compression());
@@ -25,8 +23,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, '../public')));
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// Handle GET requests to /api route
+// Handle POST requests to /api/send-email
 app.post('/api/send-email', (req, res) => {
     const { name, company, email, message } = req.body;
 
@@ -52,12 +50,12 @@ app.post('/api/send-email', (req, res) => {
         .then(() => {
             transporter
                 .sendMail({
-                    from: `"${name}" <henryheffernan.folio@gmail.com>`, // sender address
-                    to: 'henryheffernan@gmail.com, henryheffernan.folio@gmail.com', // list of receivers
+                    from: `"${name}" <henryheffernan.folio@gmail.com>`,
+                    to: 'henryheffernan@gmail.com, henryheffernan.folio@gmail.com',
                     subject: `${name} <${email}> ${
                         company ? `from ${company}` : ''
-                    } submitted a contact form`, // Subject line
-                    text: `${message}`, // plain text body
+                    } submitted a contact form`,
+                    text: `${message}`,
                 })
                 .then((info) => {
                     console.log({ info });
@@ -74,7 +72,6 @@ app.post('/api/send-email', (req, res) => {
         });
 });
 
-// listen to app on port 8080
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+// Export the Express app as a serverless function for Vercel
+module.exports = app;
+

@@ -1,0 +1,25 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/mobile-redirect.html",
+      "permanent": false,
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(mobile|android|iphone|ipad|ipod|blackberry|opera|mini|windows\\s+ce|palm|smartphone|iemobile|kindle|silk|fennec)"
+        }
+      ]
+    }
+  ]
+}
+
