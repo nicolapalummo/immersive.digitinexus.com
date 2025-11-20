@@ -1,26 +1,17 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "rewrites": [
     {
-      "src": "server/index.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
+      "source": "/(.*)",
+      "destination": "/api/index"
     }
   ],
-  "routes": [
+  "redirects": [
     {
-      "src": "/api/(.*)",
-      "dest": "server/index.ts"
-    },
-    {
-      "src": "/",
-      "dest": "/mobile-redirect.html",
+      "source": "/",
+      "destination": "/mobile-redirect.html",
+      "permanent": false,
       "has": [
         {
           "type": "header",
@@ -28,10 +19,6 @@
           "value": "(?i)(mobile|android|iphone|ipad|ipod|blackberry|opera|mini|windows\\s+ce|palm|smartphone|iemobile|kindle|silk|fennec)"
         }
       ]
-    },
-    {
-      "src": "/(.*)",
-      "dest": "server/index.ts"
     }
   ]
 }
