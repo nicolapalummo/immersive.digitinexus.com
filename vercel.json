@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/index.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server/index.ts"
+    },
+    {
+      "src": "/",
+      "dest": "/mobile-redirect.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(mobile|android|iphone|ipad|ipod|blackberry|opera|mini|windows\\s+ce|palm|smartphone|iemobile|kindle|silk|fennec)"
+        }
+      ]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server/index.ts"
+    }
+  ]
+}
+

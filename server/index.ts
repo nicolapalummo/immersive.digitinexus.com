@@ -12,6 +12,19 @@ const port = 8080;
 app.use(cors());
 app.use(compression());
 
+// Mobile redirect middleware - redirect mobile users to main site
+app.use((req, res, next) => {
+  const userAgent = req.headers['user-agent'] || '';
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+  
+  // Only redirect on root path to avoid breaking API routes
+  if (isMobile && req.path === '/') {
+    return res.redirect(301, 'https://digitinexus.com');
+  }
+  
+  next();
+});
+
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../public')));
 
