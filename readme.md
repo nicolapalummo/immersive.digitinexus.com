@@ -61,7 +61,7 @@ See [LICENSE](./LICENSE) for full details.
 
 ## 🌐 Live Demo
 
-🔗 **[digitinexus.com](https://digitinexus.com)** — explore the interactive 3D workspace.  
+🔗 **[digitinexus.com](https://immersive.digitinexus.com)** — explore the interactive 3D workspace.  
 💻 **[os.digitinexus.com](https://os.digitinexus.com)** — explore the DigitiNexus operating system project.
 
 ---
